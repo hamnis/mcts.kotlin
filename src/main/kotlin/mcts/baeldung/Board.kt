@@ -2,9 +2,7 @@ package mcts.baeldung
 
 import java.util.ArrayList
 
-class Board {
-    var boardValues: Array<IntArray>
-    internal var totalMoves: Int = 0
+class Board(val boardValues: Array<IntArray> = Array(DEFAULT_BOARD_SIZE) { IntArray(DEFAULT_BOARD_SIZE) }, var totalMoves: Int = 0) {
 
     val emptyPositions: List<Position>
         get() {
@@ -19,34 +17,18 @@ class Board {
             return emptyPositions
         }
 
-    constructor() {
-        boardValues = Array(DEFAULT_BOARD_SIZE) { IntArray(DEFAULT_BOARD_SIZE) }
-    }
-
-    constructor(boardSize: Int) {
-        boardValues = Array(boardSize) { IntArray(boardSize) }
-    }
-
-    constructor(boardValues: Array<IntArray>) {
-        this.boardValues = boardValues
-    }
-
-    constructor(boardValues: Array<IntArray>, totalMoves: Int) {
-        this.boardValues = boardValues
-        this.totalMoves = totalMoves
-    }
-
-    constructor(board: Board) {
-        val boardLength = board.boardValues.size
-        this.boardValues = Array(boardLength) { IntArray(boardLength) }
-        val boardValues = board.boardValues
+    fun copy(): Board {
+        val boardLength = this.boardValues.size
+        val newBoardValues = Array(boardLength) { IntArray(boardLength) }
+        val boardValues = this.boardValues
         val n = boardValues.size
         for (i in 0 until n) {
             val m = boardValues[i].size
             for (j in 0 until m) {
-                this.boardValues[i][j] = boardValues[i][j]
+                newBoardValues[i][j] = boardValues[i][j]
             }
         }
+        return Board(newBoardValues)
     }
 
     fun performMove(player: Int, p: Position) {
@@ -125,7 +107,7 @@ class Board {
             P1 -> println("Player 1 wins")
             P2 -> println("Player 2 wins")
             DRAW -> println("Game Draw")
-            IN_PROGRESS -> println("Game In rogress")
+            IN_PROGRESS -> println("Game In progress")
         }
     }
 
@@ -139,3 +121,5 @@ class Board {
         val P2 = 2
     }
 }
+
+data class Position(val x: Int = 0, val y: Int = 0)

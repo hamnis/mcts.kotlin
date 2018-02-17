@@ -4,7 +4,7 @@ import java.util.ArrayList
 
 
 class State {
-    internal var board: Board? = null
+    internal var board: Board
     internal var playerNo: Int = 0
     var visitCount: Int = 0
     internal var winScore: Double = 0.toDouble()
@@ -15,11 +15,11 @@ class State {
     val allPossibleStates: List<State>
         get() {
             val possibleStates = ArrayList<State>()
-            val availablePositions = this.board!!.emptyPositions
+            val availablePositions = this.board.emptyPositions
             availablePositions.forEach { p ->
-                val newState = State(this.board!!)
+                val newState = State(this.board)
                 newState.playerNo = 3 - this.playerNo
-                newState.board!!.performMove(newState.playerNo, p)
+                newState.board.performMove(newState.playerNo, p)
                 possibleStates.add(newState)
             }
             return possibleStates
@@ -30,14 +30,14 @@ class State {
     }
 
     constructor(state: State) {
-        this.board = Board(state.board!!)
+        this.board = state.board.copy()
         this.playerNo = state.playerNo
         this.visitCount = state.visitCount
         this.winScore = state.winScore
     }
 
     constructor(board: Board) {
-        this.board = Board(board)
+        this.board = board.copy()
     }
 
     internal fun incrementVisit() {
@@ -50,14 +50,13 @@ class State {
     }
 
     internal fun randomPlay() {
-        val availablePositions = this.board!!.emptyPositions
+        val availablePositions = this.board.emptyPositions
         val totalPossibilities = availablePositions.size
         val selectRandom = (Math.random() * (totalPossibilities - 1 + 1)).toInt()
-        this.board!!.performMove(this.playerNo, availablePositions[selectRandom])
+        this.board.performMove(this.playerNo, availablePositions[selectRandom])
     }
 
-    internal fun
-            togglePlayer() {
+    internal fun togglePlayer() {
         this.playerNo = 3 - this.playerNo
     }
 }

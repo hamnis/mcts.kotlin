@@ -4,7 +4,6 @@ package mcts.baeldung
 object MonteCarloTreeSearch {
     private val WIN_SCORE = 10
 
-
     private fun millisForCurrentLevel(level: Int): Int = 2 * (level - 1) + 1
 
     fun findNextMove(board: Board, playerNo: Int, level: Int = 3): Board {
@@ -14,14 +13,14 @@ object MonteCarloTreeSearch {
         val opponent = 3 - playerNo
         val tree = Tree()
         val rootNode = tree.root
-        rootNode.state.board = (board)
-        rootNode.state.playerNo = (opponent)
+        rootNode.state.board = board
+        rootNode.state.playerNo = opponent
 
         while (System.currentTimeMillis() < end) {
             // Phase 1 - Selection
             val promisingNode = selectPromisingNode(rootNode)
             // Phase 2 - Expansion
-            if (promisingNode.state.board!!.checkStatus() == Board.IN_PROGRESS)
+            if (promisingNode.state.board.checkStatus() == Board.IN_PROGRESS)
                 expandNode(promisingNode)
 
             // Phase 3 - Simulation
@@ -36,7 +35,7 @@ object MonteCarloTreeSearch {
 
         val winnerNode = rootNode.childWithMaxScore
         tree.root = winnerNode
-        return winnerNode.state.board!!
+        return winnerNode.state.board
     }
 
     private fun selectPromisingNode(rootNode: Node): Node {
@@ -70,7 +69,7 @@ object MonteCarloTreeSearch {
     private fun simulateRandomPlayout(node: Node, oponent: Int): Int {
         val tempNode = node.copy()
         val tempState = tempNode.state
-        var boardStatus = tempState.board!!.checkStatus()
+        var boardStatus = tempState.board.checkStatus()
 
         if (boardStatus == oponent) {
             tempNode.parent!!.state.winScore = (Integer.MIN_VALUE).toDouble()
@@ -79,7 +78,7 @@ object MonteCarloTreeSearch {
         while (boardStatus == Board.IN_PROGRESS) {
             tempState.togglePlayer()
             tempState.randomPlay()
-            boardStatus = tempState.board!!.checkStatus()
+            boardStatus = tempState.board.checkStatus()
         }
 
         return boardStatus
