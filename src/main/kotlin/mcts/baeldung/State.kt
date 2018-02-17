@@ -3,7 +3,7 @@ package mcts.baeldung
 import java.util.ArrayList
 
 
-class State(var board: Board = Board(), var playerNo: Int = 0, var visitCount: Int = 0, var winScore: Double = 0.0) {
+class State(var board: Board, var playerNo: Int = 0, var visitCount: Int = 0, var winScore: Double = 0.0) {
 
     internal val opponent: Int
         get() = 3 - playerNo
@@ -20,7 +20,7 @@ class State(var board: Board = Board(), var playerNo: Int = 0, var visitCount: I
             return possibleStates
         }
 
-    constructor(board: Board) : this(board.copy(), 0, 0, 0.0)
+    //constructor(board: Board) : this(board.copy(), 0, 0, 0.0)
 
     fun copy(): State = State(this.board.copy(), this.playerNo, this.visitCount, this.winScore)
 

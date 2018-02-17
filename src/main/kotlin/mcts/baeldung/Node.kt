@@ -4,7 +4,7 @@ import java.util.Collections
 import java.util.Comparator
 
 
-class Node(val state: State = State(), val parent: Node? = null, val children: MutableList<Node> = mutableListOf()) {
+class Node(val state: State, val parent: Node? = null, val children: MutableList<Node> = mutableListOf()) {
     val randomChildNode: Node
         get() {
             val noOfPossibleMoves = this.children.size
