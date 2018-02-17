@@ -11,8 +11,7 @@ object MonteCarloTreeSearch {
         val end = start + 60 * millisForCurrentLevel(level)
 
         val opponent = 3 - playerNo
-        val tree = Tree()
-        val rootNode = tree.root
+        val rootNode = Node()
         rootNode.state.board = board
         rootNode.state.playerNo = opponent
 
@@ -34,7 +33,6 @@ object MonteCarloTreeSearch {
         }
 
         val winnerNode = rootNode.childWithMaxScore
-        tree.root = winnerNode
         return winnerNode.state.board
     }
 
@@ -49,8 +47,7 @@ object MonteCarloTreeSearch {
     private fun expandNode(node: Node) {
         val possibleStates = node.state.allPossibleStates
         possibleStates.forEach { state ->
-            val newNode = Node(state)
-            newNode.parent = node
+            val newNode = Node(state, node)
             newNode.state.playerNo = (node.state.opponent)
             node.children.add(newNode)
         }
@@ -66,12 +63,12 @@ object MonteCarloTreeSearch {
         }
     }
 
-    private fun simulateRandomPlayout(node: Node, oponent: Int): Int {
+    private fun simulateRandomPlayout(node: Node, opponent: Int): Int {
         val tempNode = node.copy()
         val tempState = tempNode.state
         var boardStatus = tempState.board.checkStatus()
 
-        if (boardStatus == oponent) {
+        if (boardStatus == opponent) {
             tempNode.parent!!.state.winScore = (Integer.MIN_VALUE).toDouble()
             return boardStatus
         }
