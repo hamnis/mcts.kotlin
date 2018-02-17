@@ -14,7 +14,7 @@ object UCT {
     internal fun findBestNodeWithUCT(node: Node): Node {
         val parentVisit = node.state.visitCount
         return Collections.max(
-                node.getChildArray(),
+                node.children,
                 Comparator.comparing<Node, Double> { c -> uctValue(parentVisit, c.state.winScore, c.state.visitCount) })
     }
 }

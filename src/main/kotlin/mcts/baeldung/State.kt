@@ -56,7 +56,8 @@ class State {
         this.board!!.performMove(this.playerNo, availablePositions[selectRandom])
     }
 
-    internal fun togglePlayer() {
+    internal fun
+            togglePlayer() {
         this.playerNo = 3 - this.playerNo
     }
 }

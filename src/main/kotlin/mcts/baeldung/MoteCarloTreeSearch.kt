@@ -1,26 +1,21 @@
 package mcts.baeldung
 
 
-class MonteCarloTreeSearch {
-    var level: Int = 0
-    private var oponent: Int = 0
+object MonteCarloTreeSearch {
+    private val WIN_SCORE = 10
 
-    private val millisForCurrentLevel: Int
-        get() = 2 * (this.level - 1) + 1
 
-    init {
-        this.level = 3
-    }
+    private fun millisForCurrentLevel(level: Int): Int = 2 * (level - 1) + 1
 
-    fun findNextMove(board: Board, playerNo: Int): Board {
+    fun findNextMove(board: Board, playerNo: Int, level: Int = 3): Board {
         val start = System.currentTimeMillis()
-        val end = start + 60 * millisForCurrentLevel
+        val end = start + 60 * millisForCurrentLevel(level)
 
-        oponent = 3 - playerNo
+        val opponent = 3 - playerNo
         val tree = Tree()
         val rootNode = tree.root
         rootNode.state.board = (board)
-        rootNode.state.playerNo = (oponent)
+        rootNode.state.playerNo = (opponent)
 
         while (System.currentTimeMillis() < end) {
             // Phase 1 - Selection
@@ -31,10 +26,10 @@ class MonteCarloTreeSearch {
 
             // Phase 3 - Simulation
             var nodeToExplore = promisingNode
-            if (promisingNode.getChildArray().size > 0) {
+            if (promisingNode.children.isNotEmpty()) {
                 nodeToExplore = promisingNode.randomChildNode
             }
-            val playoutResult = simulateRandomPlayout(nodeToExplore)
+            val playoutResult = simulateRandomPlayout(nodeToExplore, opponent)
             // Phase 4 - Update
             backPropogation(nodeToExplore, playoutResult)
         }
@@ -46,7 +41,7 @@ class MonteCarloTreeSearch {
 
     private fun selectPromisingNode(rootNode: Node): Node {
         var node = rootNode
-        while (node.getChildArray().size != 0) {
+        while (node.children.isNotEmpty()) {
             node = UCT.findBestNodeWithUCT(node)
         }
         return node
@@ -58,7 +53,7 @@ class MonteCarloTreeSearch {
             val newNode = Node(state)
             newNode.parent = node
             newNode.state.playerNo = (node.state.opponent)
-            node.childArray.add(newNode)
+            node.children.add(newNode)
         }
     }
 
@@ -72,8 +67,8 @@ class MonteCarloTreeSearch {
         }
     }
 
-    private fun simulateRandomPlayout(node: Node): Int {
-        val tempNode = Node(node)
+    private fun simulateRandomPlayout(node: Node, oponent: Int): Int {
+        val tempNode = node.copy()
         val tempState = tempNode.state
         var boardStatus = tempState.board!!.checkStatus()
 
@@ -89,10 +84,4 @@ class MonteCarloTreeSearch {
 
         return boardStatus
     }
-
-    companion object {
-
-        private val WIN_SCORE = 10
-    }
-
 }

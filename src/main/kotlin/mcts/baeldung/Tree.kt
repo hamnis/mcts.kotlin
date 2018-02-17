@@ -12,7 +12,7 @@ class Tree {
     }
 
     fun addChild(parent: Node, child: Node) {
-        parent.childArray.add(child)
+        parent.children.add(child)
     }
 
 }
