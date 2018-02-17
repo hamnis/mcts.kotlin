@@ -3,8 +3,8 @@ package mcts.baeldung
 interface Board {
     val emptyPositions: List<Position>
 
-    fun copy(): Board
-    fun performMove(player: Int, p: Position)
+    //fun copy(): Board
+    fun performMove(player: Int, p: Position): Board
     fun checkStatus(): Int
     fun opponent(player: Int): Int
     fun printBoard()

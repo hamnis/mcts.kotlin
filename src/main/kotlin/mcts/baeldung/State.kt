@@ -3,21 +3,20 @@ package mcts.baeldung
 import java.util.ArrayList
 
 
-class State(val board: Board, var playerNo: Int = 0, var visitCount: Int = 0, var winScore: Double = 0.0) {
+class State(var board: Board, var playerNo: Int = 0, var visitCount: Int = 0, var winScore: Double = 0.0) {
 
     val allPossibleStates: List<State>
         get() {
             val possibleStates = ArrayList<State>()
             val availablePositions = this.board.emptyPositions
             availablePositions.forEach { p ->
-                val newState = State(this.board.copy(), board.opponent(playerNo))
-                newState.board.performMove(newState.playerNo, p)
+                val newState = State(this.board.performMove(board.opponent(playerNo), p), board.opponent(playerNo))
                 possibleStates.add(newState)
             }
             return possibleStates
         }
 
-    fun copy(): State = State(this.board.copy(), this.playerNo, this.visitCount, this.winScore)
+    fun copy(): State = State(this.board, this.playerNo, this.visitCount, this.winScore)
 
     internal fun incrementVisit() {
         this.visitCount++
@@ -32,7 +31,7 @@ class State(val board: Board, var playerNo: Int = 0, var visitCount: Int = 0, va
         val availablePositions = this.board.emptyPositions
         val totalPossibilities = availablePositions.size
         val selectRandom = (Math.random() * (totalPossibilities - 1 + 1)).toInt()
-        this.board.performMove(this.playerNo, availablePositions[selectRandom])
+        this.board = this.board.performMove(this.playerNo, availablePositions[selectRandom])
     }
 
     internal fun togglePlayer() {

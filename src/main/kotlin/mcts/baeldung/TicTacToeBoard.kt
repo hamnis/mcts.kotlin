@@ -15,22 +15,10 @@ class TicTacToeBoard(private val boardValues: Array<IntArray> = Array(DEFAULT_BO
             return emptyPositions
         }
 
-    override fun copy(): TicTacToeBoard {
-        val boardLength = this.boardValues.size
-        val newBoardValues = Array(boardLength) { IntArray(boardLength) }
-        val n = boardValues.size
-        for (i in 0 until n) {
-            val m = boardValues[i].size
-            for (j in 0 until m) {
-                newBoardValues[i][j] = boardValues[i][j]
-            }
-        }
-        return TicTacToeBoard(newBoardValues)
-    }
-
-    override fun performMove(player: Int, p: Position) {
-        this.totalMoves++
-        boardValues[p.x][p.y] = player
+    override fun performMove(player: Int, p: Position): Board {
+        val copy = TicTacToeBoard(Array(boardValues.size, { boardValues[it].copyOf() }), totalMoves + 1)
+        copy.boardValues[p.x][p.y] = player
+        return copy
     }
 
     override fun checkStatus(): Int {
