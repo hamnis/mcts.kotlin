@@ -1,10 +1,10 @@
 package mcts.baeldung
 
-interface Board {
+interface Board<Player> {
     val emptyPositions: List<Position>
-    fun performMove(player: Int, p: Position): Board
-    fun checkStatus(): Int
-    fun opponent(player: Int): Int
+    fun performMove(player: Player, p: Position): Board<Player>
+    fun checkStatus(): Status<Player>
+    fun opponent(player: Player): Player
     fun printBoard()
     fun printStatus()
 }

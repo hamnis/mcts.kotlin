@@ -1,22 +1,19 @@
 package mcts.baeldung
 
-import java.util.ArrayList
+class State<Player>(var board: Board<Player>, var player: Player, var visitCount: Int = 0, var winScore: Double = 0.0) {
 
-
-class State(var board: Board, var playerNo: Int = 0, var visitCount: Int = 0, var winScore: Double = 0.0) {
-
-    val allPossibleStates: List<State>
+    val allPossibleStates: List<State<Player>>
         get() {
-            val possibleStates = ArrayList<State>()
+            val possibleStates = mutableListOf<State<Player>>()
             val availablePositions = this.board.emptyPositions
             availablePositions.forEach { p ->
-                val newState = State(this.board.performMove(board.opponent(playerNo), p), board.opponent(playerNo))
+                val newState = State(this.board.performMove(board.opponent(player), p), board.opponent(player))
                 possibleStates.add(newState)
             }
             return possibleStates
         }
 
-    fun copy(): State = State(this.board, this.playerNo, this.visitCount, this.winScore)
+    fun copy(): State<Player> = State(this.board, this.player, this.visitCount, this.winScore)
 
     internal fun incrementVisit() {
         this.visitCount++
@@ -31,11 +28,11 @@ class State(var board: Board, var playerNo: Int = 0, var visitCount: Int = 0, va
         val availablePositions = this.board.emptyPositions
         val totalPossibilities = availablePositions.size
         val selectRandom = (Math.random() * (totalPossibilities - 1 + 1)).toInt()
-        this.board = this.board.performMove(this.playerNo, availablePositions[selectRandom])
+        this.board = this.board.performMove(this.player, availablePositions[selectRandom])
     }
 
     internal fun togglePlayer() {
-        this.playerNo = board.opponent(this.playerNo)
+        this.player = board.opponent(this.player)
     }
 
     companion object {

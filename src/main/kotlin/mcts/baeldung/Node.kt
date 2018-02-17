@@ -4,18 +4,18 @@ import java.util.Collections
 import java.util.Comparator
 
 
-class Node(val state: State, val parent: Node? = null, val children: MutableList<Node> = mutableListOf()) {
-    val randomChildNode: Node
+class Node<Player>(val state: State<Player>, val parent: Node<Player>? = null, val children: MutableList<Node<Player>> = mutableListOf()) {
+    val randomChildNode: Node<Player>
         get() {
             val noOfPossibleMoves = this.children.size
             val selectRandom = (Math.random() * (noOfPossibleMoves - 1 + 1)).toInt()
             return this.children[selectRandom]
         }
 
-    val childWithMaxScore: Node
-        get() = Collections.max<Node>(this.children, Comparator.comparing<Node, Int> { c -> c.state.visitCount })
+    val childWithMaxScore: Node<Player>
+        get() = Collections.max<Node<Player>>(this.children, Comparator.comparing<Node<Player>, Int> { c -> c.state.visitCount })
 
-    fun copy(): Node {
+    fun copy(): Node<Player> {
         val children = this.children.mapTo(mutableListOf()) { it.copy() }
         return Node(this.state.copy(), this.parent, children)
     }

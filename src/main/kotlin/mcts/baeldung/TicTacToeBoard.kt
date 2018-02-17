@@ -1,6 +1,6 @@
 package mcts.baeldung
 
-class TicTacToeBoard(private val boardValues: Array<IntArray> = Array(DEFAULT_BOARD_SIZE) { IntArray(DEFAULT_BOARD_SIZE) }, private var totalMoves: Int = 0) : Board {
+class TicTacToeBoard(private val boardValues: Array<IntArray> = Array(DEFAULT_BOARD_SIZE) { IntArray(DEFAULT_BOARD_SIZE) }, private var totalMoves: Int = 0) : Board<Int> {
 
     override val emptyPositions: List<Position>
         get() {
@@ -15,13 +15,13 @@ class TicTacToeBoard(private val boardValues: Array<IntArray> = Array(DEFAULT_BO
             return emptyPositions
         }
 
-    override fun performMove(player: Int, p: Position): Board {
+    override fun performMove(player: Int, p: Position): Board<Int> {
         val copy = TicTacToeBoard(Array(boardValues.size, { boardValues[it].copyOf() }), totalMoves + 1)
         copy.boardValues[p.x][p.y] = player
         return copy
     }
 
-    override fun checkStatus(): Int {
+    override fun checkStatus(): Status<Int> {
         val boardSize = boardValues.size
         val maxIndex = boardSize - 1
         val diag1 = IntArray(boardSize)
@@ -36,11 +36,11 @@ class TicTacToeBoard(private val boardValues: Array<IntArray> = Array(DEFAULT_BO
 
             val checkRowForWin = checkForWin(row)
             if (checkRowForWin != 0)
-                return checkRowForWin
+                return Status.Win(checkRowForWin)
 
             val checkColForWin = checkForWin(col)
             if (checkColForWin != 0)
-                return checkColForWin
+                return Status.Win(checkColForWin)
 
             diag1[i] = boardValues[i][i]
             diag2[i] = boardValues[maxIndex - i][i]
@@ -48,13 +48,13 @@ class TicTacToeBoard(private val boardValues: Array<IntArray> = Array(DEFAULT_BO
 
         val checkDia1gForWin = checkForWin(diag1)
         if (checkDia1gForWin != 0)
-            return checkDia1gForWin
+            return Status.Win(checkDia1gForWin)
 
         val checkDiag2ForWin = checkForWin(diag2)
         if (checkDiag2ForWin != 0)
-            return checkDiag2ForWin
+            return Status.Win(checkDiag2ForWin)
 
-        return if (emptyPositions.isNotEmpty()) IN_PROGRESS else DRAW
+        return if (emptyPositions.isNotEmpty()) Status.InProgress else Status.Draw
     }
 
     private fun checkForWin(row: IntArray): Int {
@@ -91,19 +91,15 @@ class TicTacToeBoard(private val boardValues: Array<IntArray> = Array(DEFAULT_BO
 
     override fun printStatus() {
         when (this.checkStatus()) {
-            P1 -> println("Player 1 wins")
-            P2 -> println("Player 2 wins")
-            DRAW -> println("Game Draw")
-            IN_PROGRESS -> println("Game In progress")
+            Status.Win(P1) -> println("Player 1 wins")
+            Status.Win(P2) -> println("Player 2 wins")
+            Status.Draw -> println("Game Draw")
+            Status.InProgress -> println("Game In progress")
         }
     }
 
     companion object {
-
         val DEFAULT_BOARD_SIZE = 3
-
-        val IN_PROGRESS = -1
-        val DRAW = 0
         val P1 = 1
         val P2 = 2
     }

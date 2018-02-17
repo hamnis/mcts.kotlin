@@ -11,10 +11,10 @@ object UCT {
         } else nodeWinScore / nodeVisit.toDouble() + 1.41 * Math.sqrt(Math.log(totalVisit.toDouble()) / nodeVisit.toDouble())
     }
 
-    internal fun findBestNodeWithUCT(node: Node): Node {
+    internal fun <Player> findBestNodeWithUCT(node: Node<Player>): Node<Player> {
         val parentVisit = node.state.visitCount
         return Collections.max(
                 node.children,
-                Comparator.comparing<Node, Double> { c -> uctValue(parentVisit, c.state.winScore, c.state.visitCount) })
+                Comparator.comparing<Node<Player>, Double> { c -> uctValue(parentVisit, c.state.winScore, c.state.visitCount) })
     }
 }
