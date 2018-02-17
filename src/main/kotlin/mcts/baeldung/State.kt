@@ -3,11 +3,7 @@ package mcts.baeldung
 import java.util.ArrayList
 
 
-class State {
-    internal var board: Board
-    internal var playerNo: Int = 0
-    var visitCount: Int = 0
-    internal var winScore: Double = 0.toDouble()
+class State(var board: Board = Board(), var playerNo: Int = 0, var visitCount: Int = 0, var winScore: Double = 0.0) {
 
     internal val opponent: Int
         get() = 3 - playerNo
@@ -17,28 +13,16 @@ class State {
             val possibleStates = ArrayList<State>()
             val availablePositions = this.board.emptyPositions
             availablePositions.forEach { p ->
-                val newState = State(this.board)
-                newState.playerNo = 3 - this.playerNo
+                val newState = State(this.board.copy(), 3 - this.playerNo)
                 newState.board.performMove(newState.playerNo, p)
                 possibleStates.add(newState)
             }
             return possibleStates
         }
 
-    constructor() {
-        board = Board()
-    }
+    constructor(board: Board) : this(board.copy(), 0, 0, 0.0)
 
-    constructor(state: State) {
-        this.board = state.board.copy()
-        this.playerNo = state.playerNo
-        this.visitCount = state.visitCount
-        this.winScore = state.winScore
-    }
-
-    constructor(board: Board) {
-        this.board = board.copy()
-    }
+    fun copy(): State = State(this.board.copy(), this.playerNo, this.visitCount, this.winScore)
 
     internal fun incrementVisit() {
         this.visitCount++
