@@ -18,7 +18,6 @@ class TicTacToeBoard(private val boardValues: Array<IntArray> = Array(DEFAULT_BO
     override fun copy(): TicTacToeBoard {
         val boardLength = this.boardValues.size
         val newBoardValues = Array(boardLength) { IntArray(boardLength) }
-        val boardValues = this.boardValues
         val n = boardValues.size
         for (i in 0 until n) {
             val m = boardValues[i].size
@@ -81,17 +80,22 @@ class TicTacToeBoard(private val boardValues: Array<IntArray> = Array(DEFAULT_BO
             }
             previous = row[i]
         }
-        return if (isEqual)
-            previous
-        else
-            0
+        return if (isEqual) previous else 0
     }
 
+    override fun opponent(player: Int) = 3 - player
+
     override fun printBoard() {
+        fun toSymbol(pos: Int): String = when(pos) {
+            1 -> "X"
+            2 -> "O"
+            else -> "."
+        }
+
         val size = this.boardValues.size
         for (i in 0 until size) {
             for (j in 0 until size) {
-                print(boardValues[i][j].toString() + " ")
+                print(toSymbol(boardValues[i][j]) + " ")
             }
             println()
         }
@@ -116,4 +120,3 @@ class TicTacToeBoard(private val boardValues: Array<IntArray> = Array(DEFAULT_BO
         val P2 = 2
     }
 }
-

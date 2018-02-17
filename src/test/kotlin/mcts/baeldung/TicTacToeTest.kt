@@ -15,12 +15,22 @@ class TicTacToeTest {
             if (board.checkStatus() != TicTacToeBoard.IN_PROGRESS) {
                 break
             }
-            player = 3 - player
+            player = board.opponent(player)
         }
         val winStatus = board.checkStatus()
 
         board.printStatus()
 
         assertEquals(winStatus, TicTacToeBoard.DRAW)
+    }
+
+    @Test
+    fun favorWinningMove() {
+        val board = TicTacToeBoard(arrayOf(intArrayOf(2, 2, 0), intArrayOf(1, 1, 0), intArrayOf(2, 2, 0)))
+        val movedBoard = MonteCarloTreeSearch.findNextMove(board, 1)
+
+        assertEquals(1, movedBoard.checkStatus())
+        movedBoard.printStatus()
+        movedBoard.printBoard()
     }
 }

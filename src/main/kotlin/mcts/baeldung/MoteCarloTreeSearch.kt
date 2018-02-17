@@ -10,7 +10,7 @@ object MonteCarloTreeSearch {
         val start = System.currentTimeMillis()
         val end = start + 60 * millisForCurrentLevel(level)
 
-        val opponent = 3 - playerNo
+        val opponent = board.opponent(playerNo)
         val rootNode = Node(State(board, opponent))
 
         while (System.currentTimeMillis() < end) {
@@ -46,7 +46,7 @@ object MonteCarloTreeSearch {
         val possibleStates = node.state.allPossibleStates
         possibleStates.forEach { state ->
             val newNode = Node(state, node)
-            newNode.state.playerNo = node.state.opponent
+            newNode.state.playerNo = state.board.opponent(node.state.playerNo)
             node.children.add(newNode)
         }
     }
@@ -67,7 +67,7 @@ object MonteCarloTreeSearch {
         var boardStatus = tempState.board.checkStatus()
 
         if (boardStatus == opponent) {
-            tempNode.parent!!.state.winScore = (Integer.MIN_VALUE).toDouble()
+            tempNode.parent?.state?.winScore = State.NO_WIN_SCORE
             return boardStatus
         }
         while (boardStatus == TicTacToeBoard.IN_PROGRESS) {

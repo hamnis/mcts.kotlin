@@ -6,6 +6,7 @@ interface Board {
     fun copy(): TicTacToeBoard
     fun performMove(player: Int, p: Position)
     fun checkStatus(): Int
+    fun opponent(player: Int): Int
     fun printBoard()
     fun printStatus()
 }
