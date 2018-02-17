@@ -2,7 +2,7 @@ package mcts.baeldung
 
 
 object MonteCarloTreeSearch {
-    private val WIN_SCORE = 10
+    private val WIN_SCORE = 10.0
 
     private fun millisForCurrentLevel(level: Int): Int = 2 * (level - 1) + 1
 
@@ -56,7 +56,7 @@ object MonteCarloTreeSearch {
         while (tempNode != null) {
             tempNode.state.incrementVisit()
             if (tempNode.state.playerNo == playerNo)
-                tempNode.state.addScore(WIN_SCORE.toDouble())
+                tempNode.state.addScore(WIN_SCORE)
             tempNode = tempNode.parent
         }
     }

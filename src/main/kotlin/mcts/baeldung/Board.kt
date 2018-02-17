@@ -3,7 +3,7 @@ package mcts.baeldung
 interface Board {
     val emptyPositions: List<Position>
 
-    fun copy(): TicTacToeBoard
+    fun copy(): Board
     fun performMove(player: Int, p: Position)
     fun checkStatus(): Int
     fun opponent(player: Int): Int
