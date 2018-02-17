@@ -1,8 +1,5 @@
 package mcts.baeldung
 
-import java.util.*
-
-
 object UCT {
 
     fun uctValue(totalVisit: Int, nodeWinScore: Double, nodeVisit: Int): Double {
@@ -13,8 +10,6 @@ object UCT {
 
     internal fun <Player> findBestNodeWithUCT(node: Node<Player>): Node<Player> {
         val parentVisit = node.state.visitCount
-        return Collections.max(
-                node.children,
-                Comparator.comparing<Node<Player>, Double> { c -> uctValue(parentVisit, c.state.winScore, c.state.visitCount) })
+        return node.children.maxBy { uctValue(parentVisit, it.state.winScore, it.state.visitCount) }!!
     }
 }
