@@ -6,7 +6,7 @@ object TTT {
     sealed class Placement {
         object Empty : Placement() {
             override fun toString(): String {
-                return "empty"
+                return "."
             }
         }
         object XPlayer : Placement(), Player {
@@ -21,7 +21,7 @@ object TTT {
 
     data class WinningScore(val value: Int) {
         fun matches(score: Score): Boolean {
-            return score.value and value == value
+            return (score.value and value) == value
         }
     }
 }
@@ -34,16 +34,16 @@ class TicTacToeGame(val board: Map<Int, TTT.Placement>, override val currentPlay
     }
     override val random: Boolean = false
     override val winner: TTT.Player? by lazy {
-        val scores = mutableMapOf<TTT.Player, TTT.Score>(TTT.Placement.XPlayer to TTT.Score(0), TTT.Placement.OPlayer to TTT.Score(0))
+        val playerScores = mutableMapOf<TTT.Player, TTT.Score>(TTT.Placement.XPlayer to TTT.Score(0), TTT.Placement.OPlayer to TTT.Score(0))
         board.forEach { idx, u ->
             when (u) {
                 is TTT.Player ->
-                        scores.put(u, scores[u]!!.let { it.copy(it.value + BoardScore[idx]!!.value) })
+                    playerScores[u] = TTT.Score(playerScores[u]!!.value + BoardScore[idx]!!.value)
                 else -> Unit
             }
         }
 
-        arrayOf<TTT.Player>(TTT.Placement.OPlayer, TTT.Placement.XPlayer).find { p -> WinningScores.any { it.matches(scores[p]!!) }}
+        arrayOf<TTT.Player>(TTT.Placement.OPlayer, TTT.Placement.XPlayer).find { p -> WinningScores.any { it.matches(playerScores[p]!!) }}
     }
 
 
