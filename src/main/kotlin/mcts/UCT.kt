@@ -8,7 +8,7 @@ object UCT {
         } else nodeWinScore / nodeVisit.toDouble() + 1.41 * Math.sqrt(Math.log(totalVisit.toDouble()) / nodeVisit.toDouble())
     }
 
-    internal fun <Player> findBestNodeWithUCT(node: Node<Player>): Node<Player> {
+    internal fun findBestNodeWithUCT(node: Node): Node {
         val parentVisit = node.state.visitCount
         return node.children.maxBy { uctValue(parentVisit, it.state.winScore, it.state.visitCount) }!!
     }

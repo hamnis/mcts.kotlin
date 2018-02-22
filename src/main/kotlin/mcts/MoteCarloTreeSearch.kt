@@ -1,16 +1,16 @@
 package mcts
 
 
-class MonteCarloTreeSearch<Player> {
+object MonteCarloTreeSearch {
     private val WIN_SCORE = 10.0
 
     private fun millisForCurrentLevel(level: Int): Int = 2 * (level - 1) + 1
 
-    fun findNextMove(board: Board<Player>, player: Player, level: Int = 3): Board<Player> {
+    fun findNextMove(board: Board, player: Player, level: Int = 3): Board {
         val start = System.currentTimeMillis()
         val end = start + 60 * millisForCurrentLevel(level)
 
-        val opponent = board.opponent(player)
+        val opponent = player.opponent
         val rootNode = Node(State(board, opponent))
 
         while (System.currentTimeMillis() < end) {
@@ -34,7 +34,7 @@ class MonteCarloTreeSearch<Player> {
         return winnerNode.state.board
     }
 
-    private fun selectPromisingNode(rootNode: Node<Player>): Node<Player> {
+    private fun selectPromisingNode(rootNode: Node): Node {
         var node = rootNode
         while (node.children.isNotEmpty()) {
             node = UCT.findBestNodeWithUCT(node)
@@ -42,26 +42,26 @@ class MonteCarloTreeSearch<Player> {
         return node
     }
 
-    private fun expandNode(node: Node<Player>) {
+    private fun expandNode(node: Node) {
         val possibleStates = node.state.allPossibleStates
         possibleStates.forEach { state ->
             val newNode = Node(state, node)
-            newNode.state.player = state.board.opponent(node.state.player)
+            newNode.state.player = node.state.player.opponent
             node.children.add(newNode)
         }
     }
 
-    private fun backPropogation(nodeToExplore: Node<Player>, player: Status<Player>) {
-        var tempNode: Node<Player>? = nodeToExplore
+    private fun backPropogation(nodeToExplore: Node, player: Status) {
+        var tempNode: Node? = nodeToExplore
         while (tempNode != null) {
             tempNode.state.incrementVisit()
-            if (player is Status.Win<Player> && tempNode.state.player == player.player)
+            if (player is Status.Win && tempNode.state.player == player.player)
                 tempNode.state.addScore(WIN_SCORE)
             tempNode = tempNode.parent
         }
     }
 
-    private fun simulateRandomPlayout(node: Node<Player>, opponent: Player): Status<Player> {
+    private fun simulateRandomPlayout(node: Node, opponent: Player): Status {
         val tempNode = node.copy()
         val tempState = tempNode.state
         var boardStatus = tempState.board.checkStatus()
