@@ -1,4 +1,4 @@
-package mcts.baeldung
+package mcts
 
 class TicTacToeBoard(private val boardValues: Array<IntArray> = Array(DEFAULT_BOARD_SIZE) { IntArray(DEFAULT_BOARD_SIZE) }, private var totalMoves: Int = 0) : Board<Int> {
 

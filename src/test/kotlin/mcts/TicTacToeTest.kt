@@ -1,4 +1,4 @@
-package mcts.baeldung
+package mcts
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -9,8 +9,8 @@ class TicTacToeTest {
     fun givenEmptyBoard_whenSimulateInterAIPlay_thenGameDraw() {
         val mcts = MonteCarloTreeSearch<Int>()
         var board: Board<Int> = TicTacToeBoard()
-        var player = TicTacToeBoard.P1
-        val totalMoves = TicTacToeBoard.DEFAULT_BOARD_SIZE * TicTacToeBoard.DEFAULT_BOARD_SIZE
+        var player = TicTacToeBoard.Companion.P1
+        val totalMoves = TicTacToeBoard.Companion.DEFAULT_BOARD_SIZE * TicTacToeBoard.Companion.DEFAULT_BOARD_SIZE
         for (i in 0 until totalMoves) {
             board = mcts.findNextMove(board, player)
             if (board.checkStatus() != Status.InProgress) {

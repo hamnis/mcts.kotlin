@@ -1,4 +1,4 @@
-package mcts.baeldung
+package mcts
 
 sealed class Status<in Player> {
     object InProgress : Status<Any>()

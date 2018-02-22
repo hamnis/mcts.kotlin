@@ -1,4 +1,4 @@
-package mcts.baeldung
+package mcts
 
 interface Board<Player> {
     val emptyPositions: List<Position>

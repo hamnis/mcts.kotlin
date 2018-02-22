@@ -1,4 +1,4 @@
-package mcts.baeldung
+package mcts
 
 
 class MonteCarloTreeSearch<Player> {

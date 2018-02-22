@@ -1,4 +1,4 @@
-package mcts.baeldung
+package mcts
 
 class State<Player>(var board: Board<Player>, var player: Player, var visitCount: Int = 0, var winScore: Double = 0.0) {
 
