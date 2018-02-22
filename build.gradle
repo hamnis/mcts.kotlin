@@ -1,0 +1,19 @@
+group 'net.hamnaberg.mctskotlin'
+version '0.1-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.2.21'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+}

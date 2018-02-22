@@ -1,0 +1,2 @@
+include 'jvm', 'js'
+rootProject.name = 'MCTS.kotlin'

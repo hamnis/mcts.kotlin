@@ -28,7 +28,7 @@ class Node(var board: Board, val parent: Node? = null, val children: MutableList
     }
 
     companion object {
-        const val NO_WIN_SCORE = Integer.MIN_VALUE.toDouble()
+        const val NO_WIN_SCORE = Int.MIN_VALUE.toDouble()
     }
 
 }
