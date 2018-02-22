@@ -1,0 +1,11 @@
+{
+  "name": "node-demo",
+  "description": "A sample of using Kotlin with node.js",
+  "version": "0.0.1",
+  "dependencies": {
+    "kotlin": "1.2.21"
+  },
+  "scripts": {
+    "main": "node out/output.js"
+  }
+}

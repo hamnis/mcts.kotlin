@@ -23,9 +23,10 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    //testCompile 'io.kotlintest:kotlintest:2.0.5'
+    testCompile 'io.kotlintest:kotlintest:2.0.7'
 }
 
 compileKotlin {
@@ -38,4 +39,5 @@ compileTestKotlin {
 
 sourceSets {
     main.kotlin.srcDirs += project(':').file('shared/src/main/kotlin')
+    test.kotlin.srcDirs += project(':').file('shared/src/test/kotlin')
 }
