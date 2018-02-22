@@ -7,12 +7,11 @@ import org.junit.Test
 class TicTacToeTest {
     @Test
     fun givenEmptyBoard_whenSimulateInterAIPlay_thenGameDraw() {
-        //val mcts = MonteCarloTreeSearch
         var board: Board = TicTacToeBoard()
         var player: Player = Player.One
         val totalMoves = TicTacToeBoard.Companion.DEFAULT_BOARD_SIZE * TicTacToeBoard.Companion.DEFAULT_BOARD_SIZE
         for (i in 0 until totalMoves) {
-            board = MonteCarloTreeSearch.findNextMove(board, player)
+            board = MonteCarloTreeSearch.findNextMove(board, player, JVMRandom)
             if (board.checkStatus() != Status.InProgress) {
                 break
             }
@@ -32,7 +31,7 @@ class TicTacToeTest {
                 arrayOf(Placement.Occupied(Player.One), Placement.Occupied(Player.One), Placement.Empty),
                 arrayOf(Placement.Occupied(Player.Two), Placement.Occupied(Player.Two), Placement.Empty)
         ))
-        val movedBoard = MonteCarloTreeSearch.findNextMove(board, Player.One)
+        val movedBoard = MonteCarloTreeSearch.findNextMove(board, Player.One, JVMRandom)
 
         assertEquals(Status.Win(Player.One), movedBoard.checkStatus())
         movedBoard.printStatus()

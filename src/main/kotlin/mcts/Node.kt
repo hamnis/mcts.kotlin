@@ -1,12 +1,11 @@
 package mcts
 
 class Node(val state: State, val parent: Node? = null, val children: MutableList<Node> = mutableListOf()) {
-    val randomChildNode: Node
-        get() {
-            val noOfPossibleMoves = this.children.size
-            val selectRandom = (Math.random() * (noOfPossibleMoves - 1 + 1)).toInt()
-            return this.children[selectRandom]
-        }
+    fun randomChildNode(random: Random): Node {
+        val noOfPossibleMoves = this.children.size
+        val selectRandom = random.nextInt(noOfPossibleMoves)
+        return this.children[selectRandom]
+    }
 
     val childWithMaxScore: Node
         get() = this.children.maxBy { it.state.visitCount }!!

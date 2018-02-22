@@ -6,7 +6,7 @@ object MonteCarloTreeSearch {
 
     private fun millisForCurrentLevel(level: Int): Int = 2 * (level - 1) + 1
 
-    fun findNextMove(board: Board, player: Player, level: Int = 3): Board {
+    fun findNextMove(board: Board, player: Player, random: Random, level: Int = 3): Board {
         val start = System.currentTimeMillis()
         val end = start + 60 * millisForCurrentLevel(level)
 
@@ -23,9 +23,9 @@ object MonteCarloTreeSearch {
             // Phase 3 - Simulation
             var nodeToExplore = promisingNode
             if (promisingNode.children.isNotEmpty()) {
-                nodeToExplore = promisingNode.randomChildNode
+                nodeToExplore = promisingNode.randomChildNode(random)
             }
-            val playoutResult = simulateRandomPlayout(nodeToExplore, opponent)
+            val playoutResult = simulateRandomPlayout(nodeToExplore, opponent, random)
             // Phase 4 - Update
             backPropogation(nodeToExplore, playoutResult)
         }
@@ -61,7 +61,7 @@ object MonteCarloTreeSearch {
         }
     }
 
-    private fun simulateRandomPlayout(node: Node, opponent: Player): Status {
+    private fun simulateRandomPlayout(node: Node, opponent: Player, random: Random): Status {
         val tempNode = node.copy()
         val tempState = tempNode.state
         var boardStatus = tempState.board.checkStatus()
@@ -72,7 +72,7 @@ object MonteCarloTreeSearch {
         }
         while (boardStatus == Status.InProgress) {
             tempState.togglePlayer()
-            tempState.randomPlay()
+            tempState.randomPlay(random)
             boardStatus = tempState.board.checkStatus()
         }
 
