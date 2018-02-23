@@ -1,7 +1,5 @@
 package mcts
 
-import mcts.util.Random
-
 class State(var board: Board, var player: Player, var visitCount: Int = 0, var winScore: Double = 0.0) {
 
     fun allPossibleStates(availablePositions: List<Position>): List<State> {
