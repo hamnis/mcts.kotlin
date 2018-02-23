@@ -4,7 +4,7 @@ import kotlin.math.sqrt
 
 object UCT {
     private val EPSILON: Double = sqrt(2.0)
-    private val max = Integer.MAX_VALUE.toDouble()
+    private const val max: Double = Int.MAX_VALUE.toDouble()
 
     fun uctValue(totalVisit: Int, nodeWinScore: Double, nodeVisit: Int): Double {
         return if (nodeVisit == 0) max else {

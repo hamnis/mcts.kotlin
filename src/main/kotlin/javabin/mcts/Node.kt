@@ -3,7 +3,7 @@ package javabin.mcts
 import javabin.Board
 import javabin.util.Random
 
-class Node(var board: Board, val parent: Node? = null, val children: MutableList<Node> = mutableListOf(), var visitCount: Int = 0, var winScore: Double = 0.0) {
+class Node(var board: Board, val parent: Node? = null, val children: MutableList<Node> = mutableListOf(), internal var visitCount: Int = 0, internal var winScore: Double = 0.0) {
     fun randomChildNode(random: Random): Node {
         val noOfPossibleMoves = this.children.size
         val randomPosition = random.nextInt(noOfPossibleMoves)
@@ -25,6 +25,10 @@ class Node(var board: Board, val parent: Node? = null, val children: MutableList
     internal fun addScore(score: Double) {
         if (this.winScore != NO_WIN_SCORE)
             this.winScore += score
+    }
+
+    internal fun notViableSolution() {
+        this.winScore = NO_WIN_SCORE
     }
 
     companion object {

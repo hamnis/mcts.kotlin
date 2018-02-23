@@ -68,7 +68,7 @@ object MonteCarloTreeSearch {
         var boardStatus = tempNode.board.checkStatus()
 
         if (boardStatus == Status.Win(opponent)) {
-            tempNode.parent?.winScore = Node.NO_WIN_SCORE
+            tempNode.parent?.notViableSolution()
             return boardStatus
         }
         while (boardStatus is Status.InProgress) {
