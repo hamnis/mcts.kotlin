@@ -5,7 +5,7 @@ sealed class Placement {
     data class Occupied(val player: Player): Placement()
 }
 
-class TicTacToeBoard(private val boardValues: Array<Array<Placement>> = Array(DEFAULT_BOARD_SIZE) { emptyPlacements(DEFAULT_BOARD_SIZE) }, private var totalMoves: Int = 0) : Board {
+class TicTacToeBoard(private val boardValues: Array<Array<Placement>> = Array(DEFAULT_BOARD_SIZE) { emptyPlacements(DEFAULT_BOARD_SIZE) }, private val totalMoves: Int = 0) : Board {
 
     override val emptyPositions: List<Position>
         get() {
@@ -99,6 +99,7 @@ class TicTacToeBoard(private val boardValues: Array<Array<Placement>> = Array(DE
             Status.Draw -> println("Game Draw")
             Status.InProgress -> println("Game In progress")
         }
+        println(" in $totalMoves moves")
     }
 
     companion object {
