@@ -5,7 +5,7 @@ sealed class Placement {
     data class Occupied(val player: Player) : Placement()
 }
 
-class TicTacToeBoard(private val boardValues: Array<Array<Placement>> = Array(DEFAULT_BOARD_SIZE) { emptyPlacements(DEFAULT_BOARD_SIZE) }, private val totalMoves: Int = 0) : Board {
+class TicTacToeBoard(private val boardValues: Array<Array<Placement>> = boardofSize(DEFAULT_BOARD_SIZE), private val totalMoves: Int = 0) : Board {
     private fun emptyPositions(): List<Position> {
         val size = this.boardValues.size
         val emptyPositions = mutableListOf<Position>()
@@ -107,6 +107,11 @@ class TicTacToeBoard(private val boardValues: Array<Array<Placement>> = Array(DE
 
         fun emptyPlacements(size: Int) = Array<Placement>(size, { Placement.Empty })
 
+        private fun boardofSize(size: Int) = Array(size, { emptyPlacements(size) } )
+
+        fun ofSize(size: Int): TicTacToeBoard {
+            return TicTacToeBoard(boardofSize(size))
+        }
     }
 }
 

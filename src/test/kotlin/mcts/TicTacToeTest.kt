@@ -9,9 +9,15 @@ import org.junit.Test
 class TicTacToeTest {
     @Test
     fun givenEmptyBoard_whenSimulateInterAIPlay_thenGameDraw() {
-        var board: Board = TicTacToeBoard()
+        givenEmptyBoard_whenSimulateInterAIPlay_thenGameDraw(TicTacToeBoard.DEFAULT_BOARD_SIZE)
+        givenEmptyBoard_whenSimulateInterAIPlay_thenGameDraw(4)
+        givenEmptyBoard_whenSimulateInterAIPlay_thenGameDraw(6)
+    }
+
+    fun givenEmptyBoard_whenSimulateInterAIPlay_thenGameDraw(size: Int) {
+        var board: Board = TicTacToeBoard.ofSize(size)
         var player: Player = Player.One
-        val totalMoves = TicTacToeBoard.Companion.DEFAULT_BOARD_SIZE * TicTacToeBoard.Companion.DEFAULT_BOARD_SIZE
+        val totalMoves = size * size
         for (i in 0 until totalMoves) {
             board = MonteCarloTreeSearch.findNextMove(board, player, JVMRandom, 500.millis())
             if (board.checkStatus() !is Status.InProgress) {
