@@ -72,12 +72,16 @@ object MonteCarloTreeSearch {
             return boardStatus
         }
         while (boardStatus is Status.InProgress) {
-            val totalPossibilities = boardStatus.positions.size
-            val selectRandom = random.nextInt(totalPossibilities)
-            tempState.board = tempState.board.performMove(tempState.player.opponent, boardStatus.positions[selectRandom])
-            boardStatus = tempState.board.checkStatus()
+            boardStatus = randomPlay(boardStatus.positions, random, tempState)
         }
 
         return boardStatus
+    }
+
+    private fun randomPlay(positions: List<Position>, random: Random, tempState: State): Status {
+        val totalPossibilities = positions.size
+        val selectRandom = random.nextInt(totalPossibilities)
+        tempState.board = tempState.board.performMove(tempState.player.opponent, positions[selectRandom])
+        return tempState.board.checkStatus()
     }
 }
