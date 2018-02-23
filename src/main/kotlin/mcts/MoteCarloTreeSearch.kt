@@ -1,14 +1,14 @@
 package mcts
 
+import mcts.util.Duration
+import mcts.util.Random
 
 object MonteCarloTreeSearch {
     private val WIN_SCORE = 10.0
 
-    private fun millisForCurrentLevel(level: Int): Int = 2 * (level - 1) + 1
-
-    fun findNextMove(board: Board, player: Player, random: Random, level: Int = 3): Board {
+    fun findNextMove(board: Board, player: Player, random: Random, duration: Duration): Board {
         val start = System.currentTimeMillis()
-        val end = start + 60 * millisForCurrentLevel(level)
+        val end = start + duration.toMillis()
 
         val opponent = player.opponent
         val rootNode = Node(State(board, opponent))

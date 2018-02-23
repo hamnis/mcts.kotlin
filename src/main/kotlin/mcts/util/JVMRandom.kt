@@ -1,4 +1,4 @@
-package mcts
+package mcts.util
 
 object JVMRandom: Random {
     private val random = java.util.Random()

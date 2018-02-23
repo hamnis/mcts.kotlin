@@ -1,5 +1,7 @@
 package mcts
 
+import mcts.util.Random
+
 class Node(val state: State, val parent: Node? = null, val children: MutableList<Node> = mutableListOf()) {
     fun randomChildNode(random: Random): Node {
         val noOfPossibleMoves = this.children.size

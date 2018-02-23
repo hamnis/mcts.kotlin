@@ -1,5 +1,7 @@
 package mcts
 
+import mcts.util.JVMRandom
+import mcts.util.millis
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -11,7 +13,7 @@ class TicTacToeTest {
         var player: Player = Player.One
         val totalMoves = TicTacToeBoard.Companion.DEFAULT_BOARD_SIZE * TicTacToeBoard.Companion.DEFAULT_BOARD_SIZE
         for (i in 0 until totalMoves) {
-            board = MonteCarloTreeSearch.findNextMove(board, player, JVMRandom)
+            board = MonteCarloTreeSearch.findNextMove(board, player, JVMRandom, 500.millis())
             if (board.checkStatus() != Status.InProgress) {
                 break
             }
@@ -31,7 +33,7 @@ class TicTacToeTest {
                 arrayOf(Placement.Occupied(Player.One), Placement.Occupied(Player.One), Placement.Empty),
                 arrayOf(Placement.Occupied(Player.Two), Placement.Occupied(Player.Two), Placement.Empty)
         ))
-        val movedBoard = MonteCarloTreeSearch.findNextMove(board, Player.One, JVMRandom)
+        val movedBoard = MonteCarloTreeSearch.findNextMove(board, Player.One, JVMRandom, 500.millis())
 
         assertEquals(Status.Win(Player.One), movedBoard.checkStatus())
         movedBoard.printStatus()
