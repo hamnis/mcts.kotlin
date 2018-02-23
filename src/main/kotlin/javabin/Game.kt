@@ -1,4 +1,4 @@
-package mcts
+package javabin
 
 interface Game<B : Board> {
     val start: B

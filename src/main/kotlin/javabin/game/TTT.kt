@@ -1,6 +1,6 @@
-package mcts.game
+package javabin.game
 
-import mcts.*
+import javabin.*
 
 class TTT(size: Int) : Game<TicTacToeBoard> {
     override val start: TicTacToeBoard = TicTacToeBoard.ofSize(size)

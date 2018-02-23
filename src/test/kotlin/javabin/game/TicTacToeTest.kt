@@ -1,11 +1,11 @@
-package mcts.game
+package javabin.game
 
-import mcts.Board
-import mcts.mcts.MonteCarloTreeSearch
-import mcts.Player
-import mcts.Status
-import mcts.util.JVMRandom
-import mcts.util.millis
+import javabin.Board
+import javabin.mcts.MonteCarloTreeSearch
+import javabin.Player
+import javabin.Status
+import javabin.util.JVMRandom
+import javabin.util.millis
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

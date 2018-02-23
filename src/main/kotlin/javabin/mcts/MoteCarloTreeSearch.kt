@@ -1,11 +1,11 @@
-package mcts.mcts
+package javabin.mcts
 
-import mcts.Board
-import mcts.Player
-import mcts.Position
-import mcts.Status
-import mcts.util.Duration
-import mcts.util.Random
+import javabin.Board
+import javabin.Player
+import javabin.Position
+import javabin.Status
+import javabin.util.Duration
+import javabin.util.Random
 
 object MonteCarloTreeSearch {
     private val WIN_SCORE = 10.0

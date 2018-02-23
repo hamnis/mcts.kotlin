@@ -1,4 +1,4 @@
-package mcts.mcts
+package javabin.mcts
 
 import kotlin.math.sqrt
 

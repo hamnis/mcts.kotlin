@@ -1,4 +1,4 @@
-package mcts
+package javabin
 
 interface Board {
     fun allPossibleMoves(player: Player, availablePositions: List<Position>): List<Board> {

@@ -1,4 +1,4 @@
-package mcts.util
+package javabin.util
 
 import java.util.concurrent.TimeUnit
 

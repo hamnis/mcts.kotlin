@@ -1,6 +1,6 @@
-package mcts.game
+package javabin.game
 
-import mcts.*
+import javabin.*
 
 sealed class Placement {
     object Empty : Placement()

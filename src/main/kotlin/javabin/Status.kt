@@ -1,4 +1,4 @@
-package mcts
+package javabin
 
 sealed class Status {
     data class InProgress(val positions: List<Position>) : Status()

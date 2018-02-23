@@ -1,4 +1,4 @@
-package mcts
+package javabin
 
 sealed class Player {
     abstract val opponent: Player
