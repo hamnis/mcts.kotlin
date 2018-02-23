@@ -24,12 +24,6 @@ class State(var board: Board, var player: Player, var visitCount: Int = 0, var w
             this.winScore += score
     }
 
-    internal fun randomPlay(random: Random, opponent: Player, availablePositions: List<Position>) {
-        val totalPossibilities = availablePositions.size
-        val selectRandom = random.nextInt(totalPossibilities)
-        this.board = this.board.performMove(opponent, availablePositions[selectRandom])
-    }
-
     companion object {
         const val NO_WIN_SCORE = Integer.MIN_VALUE.toDouble()
     }
