@@ -14,8 +14,8 @@ class TicTacToeTest {
     @Test
     fun givenEmptyBoard_whenSimulateInterAIPlay_thenGameDraw() {
         givenEmptyBoard_whenSimulateInterAIPlay_thenGameDraw(TicTacToeBoard.DEFAULT_BOARD_SIZE)
-        //givenEmptyBoard_whenSimulateInterAIPlay_thenGameDraw(4)
-        //givenEmptyBoard_whenSimulateInterAIPlay_thenGameDraw(6)
+        givenEmptyBoard_whenSimulateInterAIPlay_thenGameDraw(4)
+        givenEmptyBoard_whenSimulateInterAIPlay_thenGameDraw(6)
     }
 
     fun givenEmptyBoard_whenSimulateInterAIPlay_thenGameDraw(size: Int) {
@@ -30,6 +30,8 @@ class TicTacToeTest {
             player = player.opponent
         }
         val winStatus = board.checkStatus()
+        TicTacToePrinter.printStatus(winStatus)
+        TicTacToePrinter.printBoard(board as TicTacToeBoard)
 
         assertEquals(Status.Draw, winStatus)
     }
@@ -43,6 +45,9 @@ class TicTacToeTest {
         ), Player.One)
         val movedBoard = MonteCarloTreeSearch.findNextMove(board, Player.One, JVMRandom, 500.millis())
 
-        assertEquals(Status.Win(Player.One), movedBoard.checkStatus())
+        val checkStatus = movedBoard.checkStatus()
+        assertEquals(Status.Win(Player.One), checkStatus)
+        TicTacToePrinter.printStatus(checkStatus)
+        TicTacToePrinter.printBoard(movedBoard as TicTacToeBoard)
     }
 }
