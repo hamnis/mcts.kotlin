@@ -51,9 +51,9 @@ object MonteCarloTreeSearch {
     private fun backPropogation(nodeToExplore: Node, player: Status) {
         var tempNode: Node? = nodeToExplore
         while (tempNode != null) {
-            tempNode.state.incrementVisit()
+            tempNode.incrementVisit()
             if (player is Status.Win && tempNode.state.player == player.player)
-                tempNode.state.addScore(WIN_SCORE)
+                tempNode.addScore(WIN_SCORE)
             tempNode = tempNode.parent
         }
     }
@@ -64,7 +64,7 @@ object MonteCarloTreeSearch {
         var boardStatus = tempState.board.checkStatus()
 
         if (boardStatus == Status.Win(opponent)) {
-            tempNode.parent?.state?.winScore = State.NO_WIN_SCORE
+            tempNode.parent?.winScore = Node.NO_WIN_SCORE
             return boardStatus
         }
         while (boardStatus is Status.InProgress) {
