@@ -44,12 +44,8 @@ object MonteCarloTreeSearch {
     }
 
     private fun expandNode(node: Node, positions: List<Position>) {
-        val possibleStates = node.state.allPossibleStates(positions)
-        possibleStates.forEach { state ->
-            val newNode = Node(state, node)
-            newNode.state.player = node.state.player.opponent
-            node.children.add(newNode)
-        }
+        val possibleStates = node.state.allPossibleStates(node.state.player.opponent, positions)
+        node.children.addAll(possibleStates.map { state -> Node(state, node) })
     }
 
     private fun backPropogation(nodeToExplore: Node, player: Status) {
@@ -79,9 +75,8 @@ object MonteCarloTreeSearch {
     }
 
     private fun randomPlay(positions: List<Position>, random: Random, tempState: State): Status {
-        val totalPossibilities = positions.size
-        val selectRandom = random.nextInt(totalPossibilities)
-        tempState.board = tempState.board.withMove(tempState.player.opponent, positions[selectRandom])
+        val randomPosition = random.nextInt(positions.size)
+        tempState.board = tempState.board.withMove(tempState.player.opponent, positions[randomPosition])
         return tempState.board.checkStatus()
     }
 }
