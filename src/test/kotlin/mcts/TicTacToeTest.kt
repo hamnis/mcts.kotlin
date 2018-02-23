@@ -14,7 +14,7 @@ class TicTacToeTest {
         val totalMoves = TicTacToeBoard.Companion.DEFAULT_BOARD_SIZE * TicTacToeBoard.Companion.DEFAULT_BOARD_SIZE
         for (i in 0 until totalMoves) {
             board = MonteCarloTreeSearch.findNextMove(board, player, JVMRandom, 500.millis())
-            if (board.checkStatus() != Status.InProgress) {
+            if (board.checkStatus() !is Status.InProgress) {
                 break
             }
             player = player.opponent

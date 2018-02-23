@@ -2,23 +2,21 @@ package mcts
 
 sealed class Placement {
     object Empty : Placement()
-    data class Occupied(val player: Player): Placement()
+    data class Occupied(val player: Player) : Placement()
 }
 
 class TicTacToeBoard(private val boardValues: Array<Array<Placement>> = Array(DEFAULT_BOARD_SIZE) { emptyPlacements(DEFAULT_BOARD_SIZE) }, private val totalMoves: Int = 0) : Board {
-
-    override val emptyPositions: List<Position>
-        get() {
-            val size = this.boardValues.size
-            val emptyPositions = mutableListOf<Position>()
-            for (i in 0 until size) {
-                for (j in 0 until size) {
-                    if (boardValues[i][j] == Placement.Empty)
-                        emptyPositions.add(Position(i, j))
-                }
+    private fun emptyPositions(): List<Position> {
+        val size = this.boardValues.size
+        val emptyPositions = mutableListOf<Position>()
+        for (i in 0 until size) {
+            for (j in 0 until size) {
+                if (boardValues[i][j] == Placement.Empty)
+                    emptyPositions.add(Position(i, j))
             }
-            return emptyPositions
         }
+        return emptyPositions
+    }
 
     override fun performMove(player: Player, p: Position): Board {
         val copy = TicTacToeBoard(Array(boardValues.size, { boardValues[it].copyOf() }), totalMoves + 1)
@@ -59,7 +57,8 @@ class TicTacToeBoard(private val boardValues: Array<Array<Placement>> = Array(DE
         if (checkDiag2ForWin is Placement.Occupied)
             return Status.Win(checkDiag2ForWin.player)
 
-        return if (emptyPositions.isNotEmpty()) Status.InProgress else Status.Draw
+        val positions = emptyPositions()
+        return if (positions.isNotEmpty()) Status.InProgress(positions) else Status.Draw
     }
 
     private fun checkForWin(row: Array<Placement>): Placement {
@@ -97,7 +96,8 @@ class TicTacToeBoard(private val boardValues: Array<Array<Placement>> = Array(DE
             Status.Win(Player.One) -> println("Player 1 wins")
             Status.Win(Player.Two) -> println("Player 2 wins")
             Status.Draw -> println("Game Draw")
-            Status.InProgress -> println("Game In progress")
+            is Status.InProgress -> println("Game In progress")
+            else -> IllegalStateException("Not a valid status")
         }
         println(" in $totalMoves moves")
     }

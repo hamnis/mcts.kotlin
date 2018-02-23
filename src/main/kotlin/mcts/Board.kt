@@ -1,7 +1,6 @@
 package mcts
 
 interface Board {
-    val emptyPositions: List<Position>
     fun performMove(player: Player, p: Position): Board
     fun checkStatus(): Status
     fun printBoard()
