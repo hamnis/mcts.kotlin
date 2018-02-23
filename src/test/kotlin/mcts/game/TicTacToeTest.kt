@@ -31,8 +31,6 @@ class TicTacToeTest {
         }
         val winStatus = board.checkStatus()
 
-        board.printStatus()
-
         assertEquals(Status.Draw, winStatus)
     }
 
@@ -46,7 +44,5 @@ class TicTacToeTest {
         val movedBoard = MonteCarloTreeSearch.findNextMove(board, Player.One, JVMRandom, 500.millis())
 
         assertEquals(Status.Win(Player.One), movedBoard.checkStatus())
-        movedBoard.printStatus()
-        movedBoard.printBoard()
     }
 }
