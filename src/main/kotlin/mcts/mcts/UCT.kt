@@ -1,4 +1,4 @@
-package mcts
+package mcts.mcts
 
 object UCT {
 

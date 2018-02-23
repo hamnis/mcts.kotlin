@@ -2,7 +2,8 @@ package mcts
 
 sealed class Status {
     data class InProgress(val positions: List<Position>) : Status()
-    object Draw : Status()
-    data class Win(val player: Player) : Status()
+    abstract class Terminal : Status()
+    object Draw : Terminal()
+    data class Win(val player: Player) : Terminal()
 }
 

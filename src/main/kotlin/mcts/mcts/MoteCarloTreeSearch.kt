@@ -1,5 +1,9 @@
-package mcts
+package mcts.mcts
 
+import mcts.Board
+import mcts.Player
+import mcts.Position
+import mcts.Status
 import mcts.util.Duration
 import mcts.util.Random
 
@@ -48,11 +52,11 @@ object MonteCarloTreeSearch {
         node.children.addAll(possibleStates.map { state -> Node(state, node) })
     }
 
-    private fun backPropogation(nodeToExplore: Node, player: Status) {
+    private fun backPropogation(nodeToExplore: Node, status: Status) {
         var tempNode: Node? = nodeToExplore
         while (tempNode != null) {
             tempNode.incrementVisit()
-            if (player is Status.Win && tempNode.board.currentPlayer == player.player)
+            if (status is Status.Win && tempNode.board.currentPlayer == status.player)
                 tempNode.addScore(WIN_SCORE)
             tempNode = tempNode.parent
         }

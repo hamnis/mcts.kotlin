@@ -1,12 +1,13 @@
-package mcts
+package mcts.mcts
 
+import mcts.Board
 import mcts.util.Random
 
 class Node(var board: Board, val parent: Node? = null, val children: MutableList<Node> = mutableListOf(), var visitCount: Int = 0, var winScore: Double = 0.0) {
     fun randomChildNode(random: Random): Node {
         val noOfPossibleMoves = this.children.size
-        val selectRandom = random.nextInt(noOfPossibleMoves)
-        return this.children[selectRandom]
+        val randomPosition = random.nextInt(noOfPossibleMoves)
+        return this.children[randomPosition]
     }
 
     val childWithMaxScore: Node

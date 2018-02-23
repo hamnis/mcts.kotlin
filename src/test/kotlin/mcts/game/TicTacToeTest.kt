@@ -1,5 +1,9 @@
-package mcts
+package mcts.game
 
+import mcts.Board
+import mcts.mcts.MonteCarloTreeSearch
+import mcts.Player
+import mcts.Status
 import mcts.util.JVMRandom
 import mcts.util.millis
 import org.junit.Assert.assertEquals
