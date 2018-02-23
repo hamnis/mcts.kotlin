@@ -24,15 +24,10 @@ class State(var board: Board, var player: Player, var visitCount: Int = 0, var w
             this.winScore += score
     }
 
-    internal fun randomPlay(random: Random, availablePositions: List<Position>) {
-        //val availablePositions = this.board.emptyPositions
+    internal fun randomPlay(random: Random, opponent: Player, availablePositions: List<Position>) {
         val totalPossibilities = availablePositions.size
         val selectRandom = random.nextInt(totalPossibilities)
-        this.board = this.board.performMove(this.player, availablePositions[selectRandom])
-    }
-
-    internal fun togglePlayer() {
-        this.player = this.player.opponent
+        this.board = this.board.performMove(opponent, availablePositions[selectRandom])
     }
 
     companion object {

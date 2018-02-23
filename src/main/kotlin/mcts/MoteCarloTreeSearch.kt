@@ -22,10 +22,10 @@ object MonteCarloTreeSearch {
                 expandNode(promisingNode, status.positions)
 
             // Phase 3 - Simulation
-            var nodeToExplore = promisingNode
-            if (promisingNode.children.isNotEmpty()) {
-                nodeToExplore = promisingNode.randomChildNode(random)
-            }
+            val nodeToExplore = if (promisingNode.children.isNotEmpty()) {
+                promisingNode.randomChildNode(random)
+            } else promisingNode
+
             val playoutResult = simulateRandomPlayout(nodeToExplore, opponent, random)
             // Phase 4 - Update
             backPropogation(nodeToExplore, playoutResult)
@@ -43,7 +43,7 @@ object MonteCarloTreeSearch {
         return node
     }
 
-    private fun expandNode(node: Node, positions: List<Position> ) {
+    private fun expandNode(node: Node, positions: List<Position>) {
         val possibleStates = node.state.allPossibleStates(positions)
         possibleStates.forEach { state ->
             val newNode = Node(state, node)
@@ -72,8 +72,7 @@ object MonteCarloTreeSearch {
             return boardStatus
         }
         while (boardStatus is Status.InProgress) {
-            tempState.togglePlayer()
-            tempState.randomPlay(random, boardStatus.positions)
+            tempState.randomPlay(random, tempState.player.opponent, boardStatus.positions)
             boardStatus = tempState.board.checkStatus()
         }
 
