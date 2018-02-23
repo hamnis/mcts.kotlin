@@ -5,7 +5,7 @@ class State(var board: Board, var player: Player, var visitCount: Int = 0, var w
     fun allPossibleStates(availablePositions: List<Position>): List<State> {
         val possibleStates = mutableListOf<State>()
         availablePositions.forEach { p ->
-            val newState = State(this.board.performMove(player.opponent, p), player.opponent)
+            val newState = State(this.board.withMove(player.opponent, p), player.opponent)
             possibleStates.add(newState)
         }
         return possibleStates

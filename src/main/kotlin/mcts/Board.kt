@@ -1,7 +1,7 @@
 package mcts
 
 interface Board {
-    fun performMove(player: Player, p: Position): Board
+    fun withMove(player: Player, p: Position): Board
     fun checkStatus(): Status
     fun printBoard()
     fun printStatus()

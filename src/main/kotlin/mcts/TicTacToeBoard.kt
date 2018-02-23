@@ -18,7 +18,7 @@ class TicTacToeBoard(private val boardValues: Array<Array<Placement>> = boardofS
         return emptyPositions
     }
 
-    override fun performMove(player: Player, p: Position): Board {
+    override fun withMove(player: Player, p: Position): Board {
         val copy = TicTacToeBoard(Array(boardValues.size, { boardValues[it].copyOf() }), totalMoves + 1)
         copy.boardValues[p.x][p.y] = Placement.Occupied(player)
         return copy
