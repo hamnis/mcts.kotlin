@@ -11,13 +11,13 @@ object MonteCarloTreeSearch {
         val end = start + duration.toMillis()
 
         val opponent = player.opponent
-        val rootNode = Node(State(board, opponent))
+        val rootNode = Node(board.withPlayer(opponent))
 
         while (System.currentTimeMillis() < end) {
             // Phase 1 - Selection
             val promisingNode = selectPromisingNode(rootNode)
             // Phase 2 - Expansion
-            val status = promisingNode.state.board.checkStatus()
+            val status = promisingNode.board.checkStatus()
             if (status is Status.InProgress)
                 expandNode(promisingNode, status.positions)
 
@@ -32,7 +32,7 @@ object MonteCarloTreeSearch {
         }
 
         val winnerNode = rootNode.childWithMaxScore
-        return winnerNode.state.board
+        return winnerNode.board
     }
 
     private fun selectPromisingNode(rootNode: Node): Node {
@@ -44,7 +44,7 @@ object MonteCarloTreeSearch {
     }
 
     private fun expandNode(node: Node, positions: List<Position>) {
-        val possibleStates = node.state.allPossibleStates(node.state.player.opponent, positions)
+        val possibleStates = node.board.allPossibleMoves(node.board.currentPlayer.opponent, positions)
         node.children.addAll(possibleStates.map { state -> Node(state, node) })
     }
 
@@ -52,7 +52,7 @@ object MonteCarloTreeSearch {
         var tempNode: Node? = nodeToExplore
         while (tempNode != null) {
             tempNode.incrementVisit()
-            if (player is Status.Win && tempNode.state.player == player.player)
+            if (player is Status.Win && tempNode.board.currentPlayer == player.player)
                 tempNode.addScore(WIN_SCORE)
             tempNode = tempNode.parent
         }
@@ -60,23 +60,23 @@ object MonteCarloTreeSearch {
 
     private fun simulateRandomPlayout(node: Node, opponent: Player, random: Random): Status {
         val tempNode = node.copy()
-        val tempState = tempNode.state
-        var boardStatus = tempState.board.checkStatus()
+        //val tempState = tempNode.state
+        var boardStatus = tempNode.board.checkStatus()
 
         if (boardStatus == Status.Win(opponent)) {
             tempNode.parent?.winScore = Node.NO_WIN_SCORE
             return boardStatus
         }
         while (boardStatus is Status.InProgress) {
-            boardStatus = randomPlay(boardStatus.positions, random, tempState)
+            boardStatus = randomPlay(boardStatus.positions, random, tempNode)
         }
 
         return boardStatus
     }
 
-    private fun randomPlay(positions: List<Position>, random: Random, tempState: State): Status {
+    private fun randomPlay(positions: List<Position>, random: Random, tempNode: Node): Status {
         val randomPosition = random.nextInt(positions.size)
-        tempState.board = tempState.board.withMove(tempState.player.opponent, positions[randomPosition])
-        return tempState.board.checkStatus()
+        tempNode.board = tempNode.board.withMove(tempNode.board.currentPlayer.opponent, positions[randomPosition])
+        return tempNode.board.checkStatus()
     }
 }

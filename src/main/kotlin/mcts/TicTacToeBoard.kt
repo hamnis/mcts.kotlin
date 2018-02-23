@@ -5,7 +5,7 @@ sealed class Placement {
     data class Occupied(val player: Player) : Placement()
 }
 
-class TicTacToeBoard(private val boardValues: Array<Array<Placement>> = boardofSize(DEFAULT_BOARD_SIZE), private val totalMoves: Int = 0) : Board {
+class TicTacToeBoard(private val boardValues: Array<Array<Placement>> = boardofSize(DEFAULT_BOARD_SIZE), override val currentPlayer: Player, private val totalMoves: Int = 0) : Board {
     private fun emptyPositions(): List<Position> {
         val size = this.boardValues.size
         val emptyPositions = mutableListOf<Position>()
@@ -19,9 +19,13 @@ class TicTacToeBoard(private val boardValues: Array<Array<Placement>> = boardofS
     }
 
     override fun withMove(player: Player, p: Position): Board {
-        val copy = TicTacToeBoard(Array(boardValues.size, { boardValues[it].copyOf() }), totalMoves + 1)
+        val copy = TicTacToeBoard(Array(boardValues.size, { boardValues[it].copyOf() }), player,totalMoves + 1)
         copy.boardValues[p.x][p.y] = Placement.Occupied(player)
         return copy
+    }
+
+    override fun withPlayer(player: Player): Board {
+        return TicTacToeBoard(boardValues, player, totalMoves)
     }
 
     override fun checkStatus(): Status {
@@ -110,7 +114,7 @@ class TicTacToeBoard(private val boardValues: Array<Array<Placement>> = boardofS
         private fun boardofSize(size: Int) = Array(size, { emptyPlacements(size) } )
 
         fun ofSize(size: Int): TicTacToeBoard {
-            return TicTacToeBoard(boardofSize(size))
+            return TicTacToeBoard(boardofSize(size), Player.One)
         }
     }
 }

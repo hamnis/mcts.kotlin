@@ -2,7 +2,7 @@ package mcts
 
 import mcts.util.Random
 
-class Node(val state: State, val parent: Node? = null, val children: MutableList<Node> = mutableListOf(), var visitCount: Int = 0, var winScore: Double = 0.0) {
+class Node(var board: Board, val parent: Node? = null, val children: MutableList<Node> = mutableListOf(), var visitCount: Int = 0, var winScore: Double = 0.0) {
     fun randomChildNode(random: Random): Node {
         val noOfPossibleMoves = this.children.size
         val selectRandom = random.nextInt(noOfPossibleMoves)
@@ -14,7 +14,7 @@ class Node(val state: State, val parent: Node? = null, val children: MutableList
 
     fun copy(): Node {
         val children = this.children.mapTo(mutableListOf()) { it.copy() }
-        return Node(this.state.copy(), this.parent, children)
+        return Node(this.board, this.parent, children)
     }
 
     internal fun incrementVisit() {
