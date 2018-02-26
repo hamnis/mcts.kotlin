@@ -69,17 +69,11 @@ class TicTacToeBoard(internal val boardValues: Array<Array<Placement>> = boardof
     }
 
     private fun checkForWin(row: Array<Placement>): Placement {
-        var isEqual = true
-        val size = row.size
-        var previous = row[0]
-        for (i in 0 until size) {
-            if (previous != row[i]) {
-                isEqual = false
-                break
-            }
-            previous = row[i]
+        val first = row.first()
+        return when (first) {
+            is Placement.Occupied -> if (row.all { it == first }) first else Placement.Empty
+            else -> Placement.Empty
         }
-        return if (isEqual) previous else Placement.Empty
     }
 
     companion object {
