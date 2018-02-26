@@ -32,6 +32,11 @@ class TicTacToeBoard(internal val boardValues: Array<Array<Placement>> = boardof
     }
 
     override fun checkStatus(): Status {
+        /**
+         * First check the row for win,
+         * builds an array of each column, then checks column for win.
+         * In the end, build an array of each diagonal which is checked for win.
+         */
         val boardSize = boardValues.size
         val maxIndex = boardSize - 1
         val diag1 = emptyPlacements(boardSize)
@@ -39,14 +44,15 @@ class TicTacToeBoard(internal val boardValues: Array<Array<Placement>> = boardof
 
         for (i in 0 until boardSize) {
             val row = boardValues[i]
-            val col = emptyPlacements(boardSize)
-            for (j in 0 until boardSize) {
-                col[j] = boardValues[j][i]
-            }
 
             val checkRowForWin = checkForWin(row)
             if (checkRowForWin is Placement.Occupied)
                 return Status.Win(checkRowForWin.player)
+
+            val col = emptyPlacements(boardSize)
+            for (j in 0 until boardSize) {
+                col[j] = boardValues[j][i]
+            }
 
             val checkColForWin = checkForWin(col)
             if (checkColForWin is Placement.Occupied)
