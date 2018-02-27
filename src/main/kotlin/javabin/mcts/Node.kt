@@ -1,7 +1,7 @@
 package javabin.mcts
 
 import javabin.Board
-import javabin.util.Random
+import java.util.Random
 
 class Node(var board: Board, val parent: Node? = null, val children: MutableList<Node> = mutableListOf(), var visitCount: Int = 0, var winScore: Double = 0.0) {
     fun randomChildNode(random: Random): Node {

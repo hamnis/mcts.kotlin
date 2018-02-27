@@ -4,8 +4,8 @@ import javabin.Board
 import javabin.Player
 import javabin.Position
 import javabin.Status
-import javabin.util.Duration
-import javabin.util.Random
+import java.time.Duration
+import java.util.Random
 
 object MonteCarloTreeSearch {
     private val WIN_SCORE = 10.0
