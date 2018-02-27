@@ -2,12 +2,6 @@ package javabin.game
 
 import javabin.*
 
-sealed class Placement {
-    object Empty : Placement()
-    data class Occupied(val player: Player) : Placement()
-}
-
-
 class TicTacToeBoard(internal val boardValues: Array<Array<Placement>> = boardofSize(DEFAULT_BOARD_SIZE), override val currentPlayer: Player, private val totalMoves: Int = 0) : Board {
     private fun emptyPositions(): List<Position> {
         val size = this.boardValues.size
@@ -95,3 +89,7 @@ class TicTacToeBoard(internal val boardValues: Array<Array<Placement>> = boardof
     }
 }
 
+sealed class Placement {
+    object Empty : Placement()
+    data class Occupied(val player: Player) : Placement()
+}
