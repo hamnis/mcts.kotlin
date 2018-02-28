@@ -4,10 +4,10 @@ import javabin.Board
 import javabin.mcts.MonteCarloTreeSearch
 import javabin.Player
 import javabin.Status
-import javabin.util.JVMRandom
-import javabin.util.millis
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import java.time.Duration
+import java.util.*
 
 
 class TicTacToeTest {
@@ -22,8 +22,11 @@ class TicTacToeTest {
         var board: Board = TicTacToeBoard.ofSize(size)
         var player: Player = Player.One
         val totalMoves = size * size
+        val random = Random()
+        val duration = Duration.ofMillis(500)
+
         for (i in 0 until totalMoves) {
-            board = MonteCarloTreeSearch.findNextMove(board, player, JVMRandom, 500.millis())
+            board = MonteCarloTreeSearch.findNextMove(board, player, random, duration)
             if (board.checkStatus() !is Status.InProgress) {
                 break
             }
@@ -43,7 +46,7 @@ class TicTacToeTest {
                 arrayOf(Placement.Occupied(Player.One), Placement.Occupied(Player.One), Placement.Empty),
                 arrayOf(Placement.Occupied(Player.Two), Placement.Occupied(Player.Two), Placement.Empty)
         ), Player.One)
-        val movedBoard = MonteCarloTreeSearch.findNextMove(board, Player.One, JVMRandom, 500.millis())
+        val movedBoard = MonteCarloTreeSearch.findNextMove(board, Player.One, Random(0), Duration.ofMillis(500))
 
         val checkStatus = movedBoard.checkStatus()
         assertEquals(Status.Win(Player.One), checkStatus)

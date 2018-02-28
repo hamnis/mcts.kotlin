@@ -2,12 +2,6 @@ package javabin.game
 
 import javabin.*
 
-sealed class Placement {
-    object Empty : Placement()
-    data class Occupied(val player: Player) : Placement()
-}
-
-
 class TicTacToeBoard(internal val boardValues: Array<Array<Placement>> = boardofSize(DEFAULT_BOARD_SIZE), override val currentPlayer: Player, private val totalMoves: Int = 0) : Board {
     private fun emptyPositions(): List<Position> {
         val size = this.boardValues.size
@@ -32,6 +26,11 @@ class TicTacToeBoard(internal val boardValues: Array<Array<Placement>> = boardof
     }
 
     override fun checkStatus(): Status {
+        /**
+         * First check the row for win,
+         * builds an array of each column, then checks column for win.
+         * In the end, build an array of each diagonal which is checked for win.
+         */
         val boardSize = boardValues.size
         val maxIndex = boardSize - 1
         val diag1 = emptyPlacements(boardSize)
@@ -39,14 +38,15 @@ class TicTacToeBoard(internal val boardValues: Array<Array<Placement>> = boardof
 
         for (i in 0 until boardSize) {
             val row = boardValues[i]
-            val col = emptyPlacements(boardSize)
-            for (j in 0 until boardSize) {
-                col[j] = boardValues[j][i]
-            }
 
             val checkRowForWin = checkForWin(row)
             if (checkRowForWin is Placement.Occupied)
                 return Status.Win(checkRowForWin.player)
+
+            val col = emptyPlacements(boardSize)
+            for (j in 0 until boardSize) {
+                col[j] = boardValues[j][i]
+            }
 
             val checkColForWin = checkForWin(col)
             if (checkColForWin is Placement.Occupied)
@@ -69,17 +69,11 @@ class TicTacToeBoard(internal val boardValues: Array<Array<Placement>> = boardof
     }
 
     private fun checkForWin(row: Array<Placement>): Placement {
-        var isEqual = true
-        val size = row.size
-        var previous = row[0]
-        for (i in 0 until size) {
-            if (previous != row[i]) {
-                isEqual = false
-                break
-            }
-            previous = row[i]
+        val first = row.first()
+        return when (first) {
+            is Placement.Occupied -> if (row.all { it == first }) first else Placement.Empty
+            else -> Placement.Empty
         }
-        return if (isEqual) previous else Placement.Empty
     }
 
     companion object {
@@ -95,3 +89,7 @@ class TicTacToeBoard(internal val boardValues: Array<Array<Placement>> = boardof
     }
 }
 
+sealed class Placement {
+    object Empty : Placement()
+    data class Occupied(val player: Player) : Placement()
+}
