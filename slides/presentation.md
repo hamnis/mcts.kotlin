@@ -14,6 +14,7 @@ background-image: url(logo.svg)
 
 # {{title}}
 ## a _very_ short introduction
+### Erlend Hamnaberg, Arktekk AS
 
 
 ???
@@ -272,7 +273,7 @@ the fourth is using the extension methods as a Method Reference.
 # Cool stuff not time to talk about
 
 * Extension methods
-* Pair og Triple
+* Multiline strings
 * Operator overloading
 * infix methods
 * inline methods
