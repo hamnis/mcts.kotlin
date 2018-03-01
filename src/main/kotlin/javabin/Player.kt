@@ -1,12 +1,12 @@
 package javabin
 
-sealed class Player {
-    abstract val opponent: Player
+enum class Player {
+    One, Two;
 
-    object One : Player() {
-        override val opponent = Two
-    }
-    object Two : Player() {
-        override val opponent = One
+    val opponent: Player by lazy {
+        when (this) {
+            One -> Two
+            Two -> One
+        }
     }
 }
